@@ -1,0 +1,24 @@
+{
+  "name": "heart-disease-analysis",
+  "version": "1.0.0",
+  "description": "COMP9321 19T1 Assignment 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WayneJz/Heart-Disease-Analysis.git"
+  },
+  "keywords": [
+    "Data",
+    "Analytic",
+    "Project"
+  ],
+  "author": "Group Master Branch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WayneJz/Heart-Disease-Analysis/issues"
+  },
+  "homepage": "https://github.com/WayneJz/Heart-Disease-Analysis#readme"
+}

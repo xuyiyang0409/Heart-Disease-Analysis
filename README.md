@@ -3,9 +3,10 @@ COMP9321 19T1 Assignment 3
 
 ## API Specification
 
-1. Get data to plot charts
+1. **Get data to plot charts**
 
 - GET data of two attributes (each for all values) from the database to plot a chart.
+
     ```
     GET /attr?x=<AttributeName>&y=<AttributeName>
     
@@ -16,6 +17,7 @@ COMP9321 19T1 Assignment 3
     }
     ```
 - If any attributes does not exist in database, return message and **404 Error**.
+
     ```
     Response
     {
@@ -24,7 +26,7 @@ COMP9321 19T1 Assignment 3
     ```
 
 
-2. Get important factors
+2. **Get important factors**
  
 - GET the potential important factors analyzed by machine learning algorithms.
 - Note the number of important factors can be changed.
@@ -40,7 +42,7 @@ COMP9321 19T1 Assignment 3
     }
     ```
 
-3. Predict users' risks of suffering heart diseases
+3. **Predict users' risks of suffering heart diseases**
 
 - POST the important factors to backend from user input.
 - Predict the probabilities, and provide the definition (High/Mid/Low).
@@ -64,6 +66,7 @@ COMP9321 19T1 Assignment 3
     ```
 
 - If any attributes in POST payload are not **Important Factors**, return message and **404 Error**.
+
     ```
     Response
     {
@@ -72,6 +75,7 @@ COMP9321 19T1 Assignment 3
     ```
 
 - If any attributes in POST payload does not exist in database, return message and **404 Error**.
+
     ```
     Response
     {
@@ -80,6 +84,7 @@ COMP9321 19T1 Assignment 3
     ```
     
 - If any attributes in POST payload is malformed (e.g. empty payload), return message and **400 Error**.
+
     ```
     Response
     {

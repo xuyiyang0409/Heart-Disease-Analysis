@@ -3,7 +3,7 @@ COMP9321 19T1 Assignment 3
 
 ## API Specification
 
-1. **Get data to plot charts**
+**Get data to plot charts**
 
 - GET data of two attributes (each for all values) from the database to plot a chart.
 
@@ -26,7 +26,7 @@ COMP9321 19T1 Assignment 3
     ```
 
 
-2. **Get important factors**
+**Get important factors**
  
 - GET the potential important factors analyzed by machine learning algorithms.
 - Note the number of important factors can be changed.
@@ -42,7 +42,7 @@ COMP9321 19T1 Assignment 3
     }
     ```
 
-3. **Predict users' risks of suffering heart diseases**
+**Predict users' risks of suffering heart diseases**
 
 - POST the important factors to backend from user input.
 - Predict the probabilities, and provide the definition (High/Mid/Low).

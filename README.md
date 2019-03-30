@@ -12,8 +12,8 @@ COMP9321 19T1 Assignment 3
     
     Sample Response
     {
-        "age" : [63.0, 67.0, 67.0 ...],
-        "sex" : [1.0, 1.0, 1.0 ...]
+        "age" : ["63.0", "67.0", "67.0" ...],
+        "sex" : ["1.0", "1.0", "1.0" ...]
     }
     ```
 - If any attributes does not exist in database, return message and **404 Error**.
@@ -24,7 +24,14 @@ COMP9321 19T1 Assignment 3
         "message" : "<AttributeName> not found in database!"
     }
     ```
+- If less than two attributes are given, return message and **400 Error**.
 
+    ```
+    Response
+    {
+        "message": "Please ensure you provide both x and y coordinates!"
+    }
+    ```
 
 **Get important factors**
  
@@ -39,6 +46,14 @@ COMP9321 19T1 Assignment 3
         "importantFactor1": "sex",
         "importantFactor2": "age"
         ...
+    }
+    ```
+- If the important factors are not yet determined (NOT happen when finished), return message and **404 Error**.
+
+    ```
+    Response
+    {
+        "message": "The important factors are not yet determined!"
     }
     ```
 

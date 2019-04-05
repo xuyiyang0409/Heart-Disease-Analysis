@@ -10,9 +10,7 @@ db_controller = DBHandler()
 
 
 parser = api.parser()
-parser.add_argument('x', type=str, help='Request your x-coordinate here', location='args')
-parser.add_argument('y', type=str, help='Request your y-coordinate here', location='args')
-
+parser.add_argument('name', type=str, help='Request your name-coordinate here', location='args')
 
 @api.route('/attr')
 @api.doc(parser=parser)
@@ -21,21 +19,18 @@ parser.add_argument('y', type=str, help='Request your y-coordinate here', locati
 @api.response(404, 'Not Found')
 class Attributes(Resource):
     def get(self):
-        attribute_x = parser.parse_args()['x']
-        attribute_y = parser.parse_args()['y']
-        if not attribute_x or not attribute_y:
-            return {"message": "Please ensure you provide both x and y coordinates!"}, 400
+        attribute_name = parser.parse_args()['name']
 
-        result_x = db_controller.database_controller(f"SELECT {attribute_x} FROM Rawdata;")
-        result_y = db_controller.database_controller(f"SELECT {attribute_y} FROM Rawdata;")
-        if not result_x:
-            return {"message": f"{attribute_x} not found in database!"}, 404
-        if not result_y:
-            return {"message": f"{attribute_y} not found in database!"}, 404
+        if not attribute_name:
+            return {"Please ensure you provide a coordinate!"}, 400
+
+        result_name = db_controller.database_controller(f"SELECT {age, sex, attribute_name} FROM Rawdata;")
+        
+        if not result_name:
+            return {"message": f"{attribute_name} not found in database!"}, 404
 
         return {
-            "x": re.findall("\w+", str(result_x), flags=re.I),
-            "y": re.findall("\w+", str(result_y), flags=re.I)
+            "cp": re.findall("\w+", str(result_name), flags=re.I),
         }, 200
 
 

@@ -30,7 +30,7 @@ class Attributes(Resource):
             return {"message": f"{attribute_name} not found in database!"}, 404
 
         return {
-            "cp": f"{result_name}"
+            "f{attribute name}": f"{result_name}"
         }, 200
 # re.findall("\w+", str(result_name), flags=re.I
 

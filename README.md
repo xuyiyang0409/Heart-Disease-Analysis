@@ -8,12 +8,14 @@ COMP9321 19T1 Assignment 3
 - GET data of two attributes (each for all values) from the database to plot a chart.
 
     ```
-    GET /attr?x=<AttributeName>&y=<AttributeName>
+    GET /attr?name=<AttributeName>
+    
+    Sample Request
+    GET /attr?name=cp
     
     Sample Response
     {
-        "age" : ["63.0", "67.0", "67.0" ...],
-        "sex" : ["1.0", "1.0", "1.0" ...]
+        "cp" : "[[63, 1, 1], [67, 1, 4] ...]"
     }
     ```
 - If any attributes does not exist in database, return message and **404 Error**.
@@ -24,12 +26,12 @@ COMP9321 19T1 Assignment 3
         "message" : "<AttributeName> not found in database!"
     }
     ```
-- If less than two attributes are given, return message and **400 Error**.
+- If no attribute is given, return message and **400 Error**.
 
     ```
     Response
     {
-        "message": "Please ensure you provide both x and y coordinates!"
+        "message": "Please ensure you provide a coordinate!"
     }
     ```
 

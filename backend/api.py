@@ -10,7 +10,7 @@ db_controller = DBHandler()
 
 
 parser = api.parser()
-parser.add_argument('name', type=str, help='Request your name-coordinate here', location='args')
+parser.add_argument('name', type=str, help='Request your attribute name here', location='args')
 
 @api.route('/attr')
 @api.doc(parser=parser)
@@ -24,12 +24,12 @@ class Attributes(Resource):
         if not attribute_name:
             return {"Please ensure you provide a coordinate!"}, 400
 
-        result_name = db_controller.database_controller(f"SELECT age, sex, {attribute_name} FROM Rawdata;")
-        if not result_name:
+        result = db_controller.database_controller(f"SELECT age, sex, {attribute_name} FROM Rawdata;")
+        if not result:
             return {"message": f"{attribute_name} not found in database!"}, 404
 
         return {
-            "cp": f"{result_name}"
+            f"{attribute_name}": result
         }, 200
 
 @api.route('/factor')

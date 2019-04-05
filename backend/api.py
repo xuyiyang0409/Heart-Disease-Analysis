@@ -25,14 +25,12 @@ class Attributes(Resource):
             return {"Please ensure you provide a coordinate!"}, 400
 
         result_name = db_controller.database_controller(f"SELECT age, sex, {attribute_name} FROM Rawdata;")
-        # print(result_name)
         if not result_name:
             return {"message": f"{attribute_name} not found in database!"}, 404
 
         return {
             "cp": f"{result_name}"
         }, 200
-# re.findall("\w+", str(result_name), flags=re.I
 
 @api.route('/factor')
 @api.response(200, 'OK')

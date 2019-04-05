@@ -10,6 +10,9 @@ COMP9321 19T1 Assignment 3
     ```
     GET /attr?name=<AttributeName>
     
+    Sample Request
+    GET /attr?name=cp
+    
     Sample Response
     {
         "cp" : "[(63, 1, 1), (67, 1, 4) ...]"

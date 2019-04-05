@@ -1,0 +1,113 @@
+import sqlite3
+import pandas as pd
+import numpy as np
+
+#读取data
+def load_data():
+    data = []
+    deas = []
+    data1 = []
+    with open('processed.cleveland.data','r') as f:
+        m = f.readlines()
+        st = ''
+        for i in m:
+            arr = i.split(',')
+            data1.append(1.0)
+            for n in range(len(arr)-2):
+                if arr[n] == '?':
+                    data1.append(0.0)
+                else:
+                    #print('nn',n)
+                    if n == 1 or n == 5 or n == 6 or n == 8 or n == 10:
+                        #print('n',n)
+                        pass
+                    else:
+                        data1.append(float(arr[n]))
+            data.append(data1)
+            data1 = []
+            if int(arr[-1][0]) == 0:
+                deas.append(float(arr[-1][0]))
+            else:
+                deas.append(1.0)
+    #print(data)
+    #for i in data:
+        #print(i)
+    print('deas',deas)
+    return data, deas
+m,n = load_data()
+print(np.shape(m))
+#正则化L1
+def L1(w1, w2):
+    return np.abs(w1) + np.abs(w2)
+#定义sigmoid
+def sigmoid(x):
+    return 1.0/(1.0 + np.exp(-x))
+
+def grad(data, deas):
+    #data = np.array(data)
+    #print('d',deas)
+    #deas = np.array(deas)
+    #print('d2',deas)
+    data = np.mat(data)
+    deas = np.mat(deas).T
+    print('deas',deas)
+    m, n = np.shape(data)
+    print(m,n)
+    a = 0.001
+    cyc = 50000
+    weights = np.ones((1,n))
+    for i in range(0,cyc):
+        WTX = np.multiply(data,weights)
+        WTX = WTX.sum(axis = 1)
+        p = sigmoid(WTX)
+        p = np.array(p)
+        #print('1',np.shape(p))
+        #print('2',np.shape(deas))
+        g = np.hstack((deas, -1 * p))
+        grad = g.sum(axis = 1)
+        back = np.multiply(grad, data)
+        back = back.sum(axis = 0)
+        weights = weights + a * back
+        #error = deas - p
+        #weights = weights + a * data.transpose()* error
+    #print('1',np.shape(p))
+    #print('2',np.shape(deas))
+    weights = weights.tolist()[0]
+    #print('weights',weights)
+    return weights
+
+wei = grad(m,n)   
+result = wei[0]
+tr = 0
+fa = 0
+print(wei)
+print(m[0])
+for j in range(len(m)):
+    for i in range(len(m[0][1:])):
+        result += wei[i] * m[j][i+1]
+    if result >= 0.5 and int(n[j]) == 1:
+        tr += 1
+    elif result < 0.5 and int(n[j]) ==0:
+        tr += 1
+    else:
+        fa += 1
+    result = wei[0]
+#精度
+print(tr/(tr+fa))
+print(tr+fa)
+#def ML(weights,data,deas):
+    
+
+
+
+
+
+
+        
+        
+
+
+
+
+
+    

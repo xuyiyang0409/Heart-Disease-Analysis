@@ -15,7 +15,7 @@ COMP9321 19T1 Assignment 3
     
     Sample Response
     {
-        "cp" : "[(63, 1, 1), (67, 1, 4) ...]"
+        "cp" : "[[63, 1, 1], [67, 1, 4] ...]"
     }
     ```
 - If any attributes does not exist in database, return message and **404 Error**.

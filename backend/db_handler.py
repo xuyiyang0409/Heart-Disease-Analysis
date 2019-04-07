@@ -37,9 +37,18 @@ class DBHandler:
             connection.close()
             return result
 
+    def get_column_names(self, table):
+        result = self.database_controller(f"PRAGMA table_info('{table}')")
+        names = list()
+        if result:
+            for attributes in result:
+                names.append(attributes[1])
+            return names
+        return False
+
     def initialize(self):
         if os.path.exists(self.database):
-            print('Database already exists! DO NOT re-initialize it.')
+            print('Database already exists.')
             return False
         if not os.path.exists(self.schema):
             print('Schema does not exist!')
@@ -52,6 +61,7 @@ class DBHandler:
             for command in sql_scripts:
                 self.database_controller(command + ';')
         print("Database successfully initialized.")
+        return True
 
     def data_import(self):
         data_files = os.listdir(self.data_dir)

@@ -77,8 +77,8 @@ COMP9321 19T1 Assignment 3
     
     Sample Response
     {
-        "message": "High Risk"
-        "probability": "62.5%"
+        "message": "No Disease"
+        "disease": 0
     }
     ```
 

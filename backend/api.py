@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_restplus import fields, Api, Resource
+from flask_cors import CORS
 import re
 
 from backend.db_handler import DBHandler
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 api = Api(app, title="Heart Disease", description="API for Heart Disease Analysis, Group Master Branch")
 db_controller = DBHandler()
 

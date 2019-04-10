@@ -70,15 +70,15 @@ COMP9321 19T1 Assignment 3
     
     POST Payload
     {
-        "age": "52",
-        "sex": "female"
+        "ca": "0",
+        "oldpeak": "2.3"
         ...
     }
     
     Sample Response
     {
         "message": "No Disease"
-        "disease": 0
+        "level": 0
     }
     ```
 

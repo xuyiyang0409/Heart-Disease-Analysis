@@ -10,10 +10,8 @@ def load_data():
     data1 = []
     with open('../data/processed.cleveland.data', 'r') as f:
         m = f.readlines()
-        st = ''
         for i in range(len(m)-3):
             arr = m[i].split(',')
-            #data1.append(1.0)
             for n in range(len(arr)-2):
                 if arr[n] == '?':
                     data1.append(0.0)

@@ -1,6 +1,7 @@
 from sklearn.svm import LinearSVC
 from sklearn.feature_selection import SelectFromModel
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from backend.db_handler import DBHandler
 
@@ -41,6 +42,12 @@ class FeatureSelection:
             print(f"Top {i + 1}: '{most_corr_list[i][0]}'")
             top_important_list.append(most_corr_list[i][0])
         print('\n')
+        plt.barh([_[0] for _ in most_corr_list], [_[1] for _ in most_corr_list], color='red')
+        plt.xlabel('Pearson correlation coefficients')
+        plt.ylabel('Attributes')
+        plt.title('Feature Selection')
+        plt.savefig('../data/FS.png')
+        plt.show()
 
         self.db_controller.database_controller('DELETE FROM Impfactor;')
         self.db_controller.database_controller("INSERT INTO Impfactor VALUES "

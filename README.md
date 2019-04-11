@@ -62,11 +62,12 @@ COMP9321 19T1 Assignment 3
 **Predict users' risks of suffering heart diseases**
 
 - POST the important factors to backend from user input.
-- Predict the probabilities, and provide the definition (High/Mid/Low).
-- Note the payload attributes can be changed.
+- Predict the result based on PredictType.
+- If Type = 1, it means 0-1 Classification
+- If Type = 2, it means multi Classification
 
     ```
-    POST /predict
+    POST /predict?type=<PredictType>
     
     POST Payload
     {

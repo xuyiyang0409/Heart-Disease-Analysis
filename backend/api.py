@@ -4,6 +4,7 @@ from flask_cors import CORS
 import re
 
 from backend.db_handler import DBHandler
+from machine_learning import multi_classification
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -11,17 +12,17 @@ api = Api(app, title="Heart Disease", description="API for Heart Disease Analysi
 db_controller = DBHandler()
 
 
-parser = api.parser()
-parser.add_argument('name', type=str, help='Request your attribute name here', location='args')
+attr_parser = api.parser()
+attr_parser.add_argument('name', type=str, help='Request your attribute name here', location='args')
 
 @api.route('/attr')
-@api.doc(parser=parser)
+@api.doc(parser=attr_parser)
 @api.response(200, 'OK')
 @api.response(400, 'Bad Request')
 @api.response(404, 'Not Found')
 class Attributes(Resource):
     def get(self):
-        attribute_name = parser.parse_args()['name']
+        attribute_name = attr_parser.parse_args()['name']
 
         if not attribute_name:
             return {"Please ensure you provide a coordinate!"}, 400
@@ -47,6 +48,61 @@ class Factors(Resource):
         for i in range(len(result[0])):
             result_dict[base_name + str(i + 1)] = result[0][i]
         return result_dict, 200
+
+
+predict_parser = api.parser()
+predict_parser.add_argument('type', type=int, help='Input prediction type', location='args')
+payload_model = api.model('POST Payload',
+                          {"ca": fields.String,
+                           "oldpeak": fields.String,
+                           "thalach": fields.String,
+                           "cp": fields.String,
+                           "exang": fields.String
+                           })
+
+@api.route('/predict')
+@api.doc(parser=predict_parser)
+@api.response(200, 'OK')
+@api.response(400, 'Bad Request')
+@api.response(404, 'Not Found')
+class Predict(Resource):
+    @api.expect(payload_model)
+    def post(self):
+        predict_type = predict_parser.parse_args()['type']
+        if not predict_type or predict_type not in {1, 2}:
+            return {"message": "Bad Request, please check your argument is either 1 or 2!"}, 400
+
+        if not api.payload:
+            return {"message": "Bad Request, please check your payload format!"}, 400
+
+        predict_value = {"ca": None,
+                         "oldpeak": None,
+                         "thalach": None,
+                         "cp": None,
+                         "exang": None}
+
+        binary_result_map = {0: "No Disease",
+                             1: "may have heart disease"}
+
+        multi_result_map = {0: "No Disease",
+                            1: "may have heart disease, Level 1",
+                            2: "may have heart disease, Level 2",
+                            3: "may have heart disease, Level 3",
+                            4: "may have heart disease, Level 4"}
+
+        for i in api.payload:
+            if i not in predict_value.keys():
+                return {"message": f"{i} is not an important factor!"}, 404
+            predict_value[i] = float(api.payload[i])
+
+        if predict_type == 1:
+            pass
+
+        if predict_type == 2:
+            multi_classify = multi_classification.MultiClassifier()
+            result = multi_classify.predict(predict_value)
+            return {"message": multi_result_map[result],
+                    "level": f"{result}"}, 200
 
 
 if __name__ == "__main__":

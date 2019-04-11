@@ -1,6 +1,8 @@
 from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 import matplotlib.pyplot as plt
+import pickle
+import os
 
 from machine_learning.feature_selection import FeatureSelection
 
@@ -65,12 +67,26 @@ class MultiClassifier:
         plt.savefig('../data/KNN.png')
         plt.show()
 
+        # Dump the model
+        with open('multiModel.pickle', 'wb') as model:
+            pickle.dump(self.knn, model)
+
     def predict(self, input_data):
-        self.train_test_splitter(0.9)
-        self.model_fitting()
-        return self.knn.predict(input_data)
+        if not os.path.exists('../machine_learning/multiModel.pickle'):
+            self.run()
+        df = pd.DataFrame(input_data, index=[0])
+
+        with open('multiModel.pickle', 'rb') as file:
+            model = pickle.load(file)
+            return model.predict(df)[0]
 
 
 if __name__ == "__main__":
     classifier = MultiClassifier()
     classifier.run()
+    test = {"ca": 2,
+            "oldpeak": 2.6,
+            "thalach": 8,
+            "cp": 3,
+            "exang": 4}
+    print(classifier.predict(test))

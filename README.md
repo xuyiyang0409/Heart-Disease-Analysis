@@ -62,11 +62,12 @@ COMP9321 19T1 Assignment 3
 **Predict users' risks of suffering heart diseases**
 
 - POST the important factors to backend from user input.
-- Predict the probabilities, and provide the definition (High/Mid/Low).
-- Note the payload attributes can be changed.
+- Predict the result based on `PredictType`.
+- If `PredictType` = 1, it means 0-1 classification
+- If `PredictType` = 2, it means multiple classification
 
     ```
-    POST /predict
+    POST /predict?type=<PredictType>
     
     POST Payload
     {
@@ -78,7 +79,15 @@ COMP9321 19T1 Assignment 3
     Sample Response
     {
         "message": "No Disease"
-        "level": 0
+        "level": "0"
+    }
+    ```
+- If the `PredictType` is not either 1 or 2, return message and **400 Error**.
+
+    ```
+    Response
+    {
+        "message" : "Bad Request, please check your argument is either 1 or 2!"
     }
     ```
 
@@ -88,15 +97,6 @@ COMP9321 19T1 Assignment 3
     Response
     {
         "message" : "<AttributeName> is not an important factor!"
-    }
-    ```
-
-- If any attributes in POST payload does not exist in database, return message and **404 Error**.
-
-    ```
-    Response
-    {
-        "message" : "<AttributeName> not found in database!"
     }
     ```
     

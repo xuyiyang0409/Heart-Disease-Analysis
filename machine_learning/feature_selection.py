@@ -10,12 +10,12 @@ from backend.db_handler import DBHandler
 
 
 class FeatureSelection:
-    def __init__(self, data):
-        self.data = data
-        self.train_data = data.filter(['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang',
-                                       'oldpeak', 'slope', 'ca'])
-        self.train_target = data.filter(['target'])
+    def __init__(self):
         self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        self.data = pd.read_csv(os.path.join(self.data_dir, 'pandas_cleaned.csv'))
+        self.train_data = self.data.filter(['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
+                                            'exang', 'oldpeak', 'slope', 'ca'])
+        self.train_target = self.data.filter(['target'])
         self.db_controller = DBHandler()
 
     def l1_regularization(self, display=False):
@@ -50,7 +50,6 @@ class FeatureSelection:
 
         plt.barh([_[0] for _ in most_corr_list], [_[1] for _ in most_corr_list], color='red')
         plt.xlabel('Pearson correlation coefficients')
-        plt.ylabel('Attributes')
         plt.title('Feature Selection')
         plt.savefig(os.path.join(self.data_dir, 'FS.png'))
         plt.show()
@@ -65,7 +64,7 @@ class FeatureSelection:
 
 
 if __name__ == "__main__":
-    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data/pandas_cleaned.csv'))
-    selecter = FeatureSelection(data)
+
+    selecter = FeatureSelection()
     selecter.correlation(display=True)
     selecter.l1_regularization(display=True)

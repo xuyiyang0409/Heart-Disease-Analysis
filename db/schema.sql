@@ -31,5 +31,6 @@ CREATE TABLE Predict(
     weifactor2 NUMERIC,
     weifactor3 NUMERIC,
     weifactor4 NUMERIC,
-    weifactor5 NUMERIC
+    weifactor5 NUMERIC,
+    weifactor6 NUMERIC
 );

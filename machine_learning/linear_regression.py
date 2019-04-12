@@ -53,6 +53,7 @@ def accurancy(m,n,linreg):
         else:
             fa += 1
         result = linreg.intercept_
+        #print(result)
     return tr/(tr+fa)
 
 #画图

@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import pickle
 import os
+import sys
+sys.path.append('../')
 
 from machine_learning.feature_selection import FeatureSelection
 
@@ -11,7 +13,8 @@ class MultiClassifier:
     def __init__(self, target_num=5):
         # KNN classifier
         self.knn = KNeighborsClassifier(n_neighbors=target_num)
-        self.data = pd.read_csv('../data/pandas_cleaned.csv')
+        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        self.data = pd.read_csv(os.path.join(self.data_dir, 'pandas_cleaned.csv'))
 
         selection = FeatureSelection(self.data)
         self.top_important_factors = selection.correlation()
@@ -64,19 +67,19 @@ class MultiClassifier:
         plt.title('KNN Multi Classifier')
         plt.xlabel('Percentages of training data %')
         plt.ylabel('Accuracy')
-        plt.savefig('../data/KNN.png')
+        plt.savefig(os.path.join(self.data_dir, 'KNN.png'))
         plt.show()
 
         # Dump the model
-        with open('multiModel.pickle', 'wb') as model:
+        with open(os.path.join(os.path.dirname(__file__), 'multiModel.pickle'), 'wb') as model:
             pickle.dump(self.knn, model)
 
     def predict(self, input_data):
-        if not os.path.exists('../machine_learning/multiModel.pickle'):
+        if not os.path.exists(os.path.join(os.path.dirname(__file__), 'multiModel.pickle')):
             self.run()
         df = pd.DataFrame(input_data, index=[0])
 
-        with open('multiModel.pickle', 'rb') as file:
+        with open(os.path.join(os.path.dirname(__file__), 'multiModel.pickle'), 'rb') as file:
             model = pickle.load(file)
             return model.predict(df)[0]
 

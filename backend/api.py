@@ -2,9 +2,11 @@ from flask import Flask
 from flask_restplus import fields, Api, Resource
 from flask_cors import CORS
 import re
+import sys
+sys.path.append('../')
 
 from backend.db_handler import DBHandler
-from machine_learning import multi_classification
+from machine_learning import multi_classification, feature_selection
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -14,6 +16,7 @@ db_controller = DBHandler()
 
 attr_parser = api.parser()
 attr_parser.add_argument('name', type=str, help='Request your attribute name here', location='args')
+
 
 @api.route('/attr')
 @api.doc(parser=attr_parser)
@@ -35,6 +38,7 @@ class Attributes(Resource):
             f"{attribute_name}": result
         }, 200
 
+
 @api.route('/factor')
 @api.response(200, 'OK')
 @api.response(404, 'Not Found')
@@ -42,6 +46,8 @@ class Factors(Resource):
     def get(self):
         result = db_controller.database_controller("SELECT * FROM Impfactor")
         if not result:
+            selecter = feature_selection.FeatureSelection()
+            selecter.correlation()
             return {"message": "The important factors are not yet determined!"}, 404
         base_name = "importantFactor"
         result_dict = dict()
@@ -59,6 +65,7 @@ payload_model = api.model('POST Payload',
                            "cp": fields.String,
                            "exang": fields.String
                            })
+
 
 @api.route('/predict')
 @api.doc(parser=predict_parser)
@@ -80,7 +87,7 @@ class Predict(Resource):
                          "thalach": None,
                          "cp": None,
                          "exang": None}
-        #print(predict_value["ca"])
+
         binary_result_map = {0: "No Disease",
                              1: "may have heart disease"}
 
@@ -108,13 +115,13 @@ class Predict(Resource):
             value3 = predict_value["thalach"]
             value4 = predict_value["cp"]
             value5 = predict_value["exang"]
-            result = impfactor1 * value1 + impfactor2 * value2 + impfactor3 * value3  + impfactor4 * value4 + impfactor5 * value5 + constant
+            result = impfactor1 * value1 + impfactor2 * value2 + impfactor3 * value3 +\
+                     impfactor4 * value4 + impfactor5 * value5 + constant
             return {"message": binary_result_map[result],
                     "level": f"{result}"}, 200
 
         if predict_type == 2:
             multi_classify = multi_classification.MultiClassifier()
-            # print(multi_classify)
             result = multi_classify.predict(predict_value)
             return {"message": multi_result_map[result],
                     "level": f"{result}"}, 200

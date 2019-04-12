@@ -2,6 +2,9 @@ from sklearn.svm import LinearSVC
 from sklearn.feature_selection import SelectFromModel
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+import sys
+sys.path.append('../')
 
 from backend.db_handler import DBHandler
 
@@ -12,6 +15,7 @@ class FeatureSelection:
         self.train_data = data.filter(['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang',
                                        'oldpeak', 'slope', 'ca'])
         self.train_target = data.filter(['target'])
+        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
         self.db_controller = DBHandler()
 
     def l1_regularization(self, display=False):
@@ -48,7 +52,7 @@ class FeatureSelection:
         plt.xlabel('Pearson correlation coefficients')
         plt.ylabel('Attributes')
         plt.title('Feature Selection')
-        plt.savefig('../data/FS.png')
+        plt.savefig(os.path.join(self.data_dir, 'FS.png'))
         plt.show()
 
         self.db_controller.database_controller('DELETE FROM Impfactor;')
@@ -61,7 +65,7 @@ class FeatureSelection:
 
 
 if __name__ == "__main__":
-    data = pd.read_csv('../data/pandas_cleaned.csv')
+    data = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data/pandas_cleaned.csv'))
     selecter = FeatureSelection(data)
     selecter.correlation(display=True)
     selecter.l1_regularization(display=True)

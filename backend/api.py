@@ -2,6 +2,8 @@ from flask import Flask
 from flask_restplus import fields, Api, Resource
 from flask_cors import CORS
 import re
+import sys
+sys.path.append('../')
 
 from backend.db_handler import DBHandler
 from machine_learning import multi_classification

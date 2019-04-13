@@ -67,16 +67,18 @@ export default class Jitter extends React.Component {
             <div className={styles.wrap}>
                 <div className={styles.ret}><Link to="/">return</Link></div>
                 <div className={styles.con}>
-                  <input type="text" ref={'ca'} placeholder="ca"/>
-                  <input type="text" ref={'oldpeak'} placeholder="oldpeak"/>
-                  <input type="text" ref={'thalach'} placeholder="thalach"/>
-                  <input type="text" ref={'cp'} placeholder="cp"/>
-                  <input type="text" ref={'exang'} placeholder="exang"/>
-                  <div className={styles.btn}>
-                    <button onClick={this.handleClick2}>Muti Prediction Submit</button>
-                  </div>
-                  {this.state.data!==null?(<div className={styles.res}>{this.state.data}</div>):''}
-                  <div className={styles.item2}>
+                    <div className={styles.item1}>
+                        <input type="text" ref={'ca'} placeholder="ca"/>
+                        <input type="text" ref={'oldpeak'} placeholder="oldpeak"/>
+                        <input type="text" ref={'thalach'} placeholder="thalach"/>
+                        <input type="text" ref={'cp'} placeholder="cp"/>
+                        <input type="text" ref={'exang'} placeholder="exang"/>
+                        <div className={styles.btn}>
+                            <button onClick={this.handleClick2}>Muti Prediction Submit</button>
+                        </div>
+                        {this.state.data!==null?(<div className={styles.res}>{this.state.data}</div>):''}
+                    </div>
+                    <div className={styles.item2}>
                         {
                             this.state.a===1?((<img src={p1} alt=""/>)):this.state.a===2?(<img src={p3} alt=""/>):(
                                 <img src={p2} alt=""/>)

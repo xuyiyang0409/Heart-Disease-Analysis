@@ -67,6 +67,7 @@ class MultiClassifier:
         plt.title('KNN Multi Classifier')
         plt.xlabel('Percentages of training data %')
         plt.ylabel('Accuracy')
+        plt.text(percentage_list[-1], accuracy_list[-1], accuracy_list[-1], ha='right', va='bottom', fontsize=12)
         plt.savefig(os.path.join(self.data_dir, 'KNN.png'))
         plt.show()
 

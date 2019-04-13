@@ -100,10 +100,17 @@ class Predict(Resource):
         for i in api.payload:
             if i not in predict_value.keys():
                 return {"message": f"{i} is not an important factor!"}, 404
-            predict_value[i] = float(api.payload[i])
+            try:
+                predict_value[i] = float(api.payload[i])
+            except ValueError:
+                return {"message": "Bad Request, please ensure values are floats or integers!"}, 400
 
         if predict_type == 1:
-            binary_classify = db_controller.database_controller(f"SELECT * FROM Predict;")
+            try:
+                binary_classify = db_controller.database_controller(f"SELECT * FROM Predict;")[0]
+            except IndexError:
+                return {"message": "The predict weights are not yet determined!"}, 404
+
             impfactor1 = binary_classify[0]
             impfactor2 = binary_classify[1]
             impfactor3 = binary_classify[2]
@@ -117,8 +124,14 @@ class Predict(Resource):
             value5 = predict_value["exang"]
             result = impfactor1 * value1 + impfactor2 * value2 + impfactor3 * value3 +\
                      impfactor4 * value4 + impfactor5 * value5 + constant
-            return {"message": binary_result_map[result],
-                    "level": f"{result}"}, 200
+
+            if result > 0.5:
+                label = 1
+            else:
+                label = 0
+
+            return {"message": binary_result_map[label],
+                    "level": f"{label}"}, 200
 
         if predict_type == 2:
             multi_classify = multi_classification.MultiClassifier()

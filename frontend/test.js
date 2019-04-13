@@ -2,7 +2,7 @@ import API from './api.js';
 
 const api  = new API();
 
-const path = 'attr?name='+ 'cp';
+const path = 'predict?type=2';
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
@@ -10,13 +10,16 @@ const headers = {
     "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
 };
-const method = 'GET';
+const method = 'POST';
+const payload = {"ca": "1.2",
+    "oldpeak": "2.34",
+    "thalach": "152",
+    "cp": "6.1",
+    "exang": "0.23"};
 
 api.makeAPIRequest(path, {
-    method, headers
+    method, headers,
+    body: JSON.stringify(payload)
 }).then(function (res) {
     console.log(res);
-    for (let i = 0; i < res.cp.length; i ++){
-        console.log(res.cp[i]);
-    }
 });

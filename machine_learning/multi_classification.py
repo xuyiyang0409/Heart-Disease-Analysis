@@ -16,7 +16,7 @@ class MultiClassifier:
         self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
         self.data = pd.read_csv(os.path.join(self.data_dir, 'pandas_cleaned.csv'))
 
-        selection = FeatureSelection(self.data)
+        selection = FeatureSelection()
         self.top_important_factors = selection.correlation()
 
         self.training_target = None

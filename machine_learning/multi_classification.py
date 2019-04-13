@@ -13,7 +13,7 @@ class MultiClassifier:
     def __init__(self, target_num=5):
         # KNN classifier
         self.knn = KNeighborsClassifier(n_neighbors=target_num)
-        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
         self.data = pd.read_csv(os.path.join(self.data_dir, 'pandas_cleaned.csv'))
 
         selection = FeatureSelection()
@@ -69,7 +69,7 @@ class MultiClassifier:
         plt.ylabel('Accuracy')
         plt.text(percentage_list[-1], accuracy_list[-1], accuracy_list[-1], ha='right', va='bottom', fontsize=12)
         plt.savefig(os.path.join(self.data_dir, 'KNN.png'))
-        #plt.show()
+        plt.show()
 
         # Dump the model
         with open(os.path.join(os.path.dirname(__file__), 'multiModel.pickle'), 'wb') as model:

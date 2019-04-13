@@ -11,7 +11,7 @@ from backend.db_handler import DBHandler
 
 class FeatureSelection:
     def __init__(self):
-        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
         self.data = pd.read_csv(os.path.join(self.data_dir, 'pandas_cleaned.csv'))
         self.train_data = self.data.filter(['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                                             'exang', 'oldpeak', 'slope', 'ca'])
@@ -52,7 +52,7 @@ class FeatureSelection:
         plt.xlabel('Pearson correlation coefficients')
         plt.title('Feature Selection')
         plt.savefig(os.path.join(self.data_dir, 'FS.png'))
-        #plt.show()
+        plt.show()
 
         self.db_controller.database_controller('DELETE FROM Impfactor;')
         self.db_controller.database_controller("INSERT INTO Impfactor VALUES "
@@ -64,7 +64,6 @@ class FeatureSelection:
 
 
 if __name__ == "__main__":
-
     selecter = FeatureSelection()
     selecter.correlation(display=True)
     selecter.l1_regularization(display=True)

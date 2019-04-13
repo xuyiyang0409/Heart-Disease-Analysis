@@ -5,8 +5,8 @@ import re
 
 class DBHandler:
     def __init__(self, database_name="a3.db"):
-        self.db_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'db')
-        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+        self.db_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'db')
+        self.data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
         self.database = os.path.join(self.db_dir, database_name)
         self.schema = os.path.join(self.db_dir, 'schema.sql')
         self.datafile_ext = ['.data']

@@ -1,24 +1,22 @@
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
-from sklearn import svm, datasets
-from sklearn.model_selection import cross_val_score, cross_val_predict
+from sklearn import svm
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LinearRegression, Lasso
 import matplotlib.pyplot as plt
-from sklearn.model_selection import KFold
-import random
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
 import numpy as np
-import copy
-from db_handler import DBHandler
-import sqlite3
 from sklearn.metrics import accuracy_score
-#获得data和label
+
+import sys
+sys.path.append('../')
+from backend.db_handler import DBHandler
+
+
+# obtain data and label
 def load_data():
     data = []
     deas = []
     data1 = []
-    with open('processed.cleveland.data','r') as f:
+    with open('../data/processed.cleveland.data','r') as f:
         m = f.readlines()
-        st = ''
         for i in range(len(m)-3):
             arr = m[i].split(',')
             for n in range(len(arr)-2):
@@ -34,6 +32,8 @@ def load_data():
             else:
                 deas.append(1.0)
     return data, deas
+
+
 m,n = load_data()
 
 train_data = []
@@ -45,8 +45,7 @@ for i in range(299):
     label_data.append(n[i])
 
 
-
-#测试精度
+# test accuracy
 def accurancy(m,n,linreg):
     wei = linreg.coef_
     result = linreg.intercept_
@@ -64,27 +63,23 @@ def accurancy(m,n,linreg):
         result = linreg.intercept_
     return tr/(tr+fa)
 
-#画图
+# plot
 def mat(x_axis, y_axis):
-    plt.figure(figsize=(16, 8))
-    plt.title("linear accurancy")
-    plt.plot(x_axis, y_axis, label='accurancy changes', linewidth=3, color='r', marker='o',
-             markerfacecolor='blue', markersize=20)
-    plt.xlabel('training number')
-    plt.ylabel('accurancy')
-    plt.text(x_axis[-1], y_axis[-1], y_axis[-1], ha='right', va='bottom', fontsize=15)
+    plt.title("Linear Regression")
+    plt.plot(x_axis, y_axis, linewidth=3, color='r', marker='o', markersize=10)
+    plt.xlabel('Number of training data')
+    plt.ylabel('Accuracy')
+    plt.text(x_axis[-1], y_axis[-1], y_axis[-1], ha='right', va='bottom', fontsize=12)
+    plt.savefig('../data/LR.png')
     plt.show()
     return 0
 
 
-
-
-
 def ridgeRegession(x, y, m, n):
-    # L2回归模型，即在线性模型的基础之增加平方和损失
+    # L2 linear regression, add sum of square loss based on linear model
     model = svm.SVC()
     alpha = {'kernel':('linear','rbf'),'C':[0.01,0.02,0.03,0.035, 0.04],'gamma' : [0.000001,0.0002,0.03,0.04,0.05]}
-    # 采用5折交叉验证
+    # 5-fold cross validation
     ridge_model = GridSearchCV(model, alpha, cv = 10)
     ridge_model = ridge_model.fit(x, y)
     print('best_params:%s' % ridge_model.best_params_)
@@ -92,8 +87,6 @@ def ridgeRegession(x, y, m, n):
     y_pred = best_model.predict(m)
     print('accuracy', accuracy_score(n, y_pred))
     return ridge_model
-
-
 
 
 def acc(lab, be):
@@ -108,21 +101,24 @@ def acc(lab, be):
             fa+= 1
     acc = tr/(tr+fa)
     return acc
-#进行训练linear
+
+
+# training linear
 def lassoRegession(x, y, test, lab):
-    # L1回归模型，即在线性模型的基础之增加绝对值和损失
+    # L1 linear regression, add abs loss based on linear model
     model = Lasso()
     alpha = np.logspace(-3, 2, 10)
-    # 采用5折交叉验证
+    # 5-fold cross validation
     lasso_model = GridSearchCV(model, param_grid={'alpha': alpha}, cv=5)
     lasso_model.fit(x, y)
-    #print('best_params:%s' % lasso_model.best_params_)
     best = lasso_model.best_estimator_
-    #print(best)
     be = best.predict(test)
     acc(lab,be)
     return lasso_model
+
+
 lassoRegession(train_data,label_data,test_data,test_label)
+
 
 def acc2(test,label, coe, inter):
     tr = 0
@@ -137,19 +133,13 @@ def acc2(test,label, coe, inter):
             tr += 1
         else:
             fa += 1
-        #print(result)
         result = inter
     return tr / (tr + fa)
-
 
 
 def jiaocha(x,y,test,lab):
     final_coe = []
     final_int = []
-    accur = []
-    coe = []
-    inter = []
-    train = []
     x_axis = []
     y_axis = []
     for o in range(25,len(x),25):
@@ -170,22 +160,15 @@ def jiaocha(x,y,test,lab):
                 train.append(j)
             for n in q[i+t:]:
                 train_la.append(n)
-            #print('test',test_data)
-            #print('train',train)
             model = LinearRegression()
             model.fit(train,train_la)
             coe.append(model.coef_)
             inter.append(model.intercept_)
             re = model.predict(test_data)
-            #print('re',re)
             a = acc(test_la,re)
             print('coe',model.coef_)
             print('a',accur)
             accur.append(a)
-            test_la = []
-            test_data = []
-            train = []
-            train_la = []
         for p in range(len(accur)):
             if max(accur) == accur[p]:
                 final_coe.append(coe[p])
@@ -203,19 +186,13 @@ def jiaocha(x,y,test,lab):
     return final_coe[-1],final_int[-1]
 
 
-
 coe,inter = jiaocha(train_data,label_data,test_data,test_label)
 fin_coe = [coe[-1],coe[-2],coe[1],coe[0],coe[2]]
 
 
-
-
-connection = sqlite3.connect('a3.db')
-cursor = connection.cursor()
-cursor.execute('DROP TABLE IF EXISTS Predict;')
-
-cursor.execute('CREATE TABLE IF NOT EXISTS Predict(ca float, oldpeak float, thal float, cp float, exang float, inter float);')
 db_handler = DBHandler()
-db_handler.database_controller(f'INSERT INTO Predict(ca,oldpeak,thal,cp,exang,inter) VALUES({fin_coe[0]}, {fin_coe[1]}, {fin_coe[2]}, {fin_coe[3]}, {fin_coe[4]}, {inter});')
+db_handler.database_controller(f'DELETE FROM Predict;')
+db_handler.database_controller(f'INSERT INTO Predict VALUES'
+                               f'({fin_coe[0]}, {fin_coe[1]}, {fin_coe[2]}, {fin_coe[3]}, {fin_coe[4]}, {inter});')
 
 

@@ -54,7 +54,7 @@ def accurancy(m,n,linreg):
     for j in range(len(m)):
         for i in range(len(m[0])):
             result += wei[i] * m[j][i]
-        if result >= 0.5and int(n[j]) == 1:
+        if result >= 0.5 and int(n[j]) == 1:
             tr += 1
         elif result < 0.5 and int(n[j]) == 0:
             tr += 1

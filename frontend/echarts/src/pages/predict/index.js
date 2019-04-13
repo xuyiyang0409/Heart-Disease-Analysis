@@ -33,7 +33,7 @@ export default class Jitter extends React.Component {
             success: (iData) => {
                 this.setState({
                     a:'LrPng',
-                    data:1
+                    data:iData.message
                 })
             }
         });
@@ -66,7 +66,7 @@ export default class Jitter extends React.Component {
 
         return (
             <div className={styles.wrap}>
-                <div className={styles.ret}><Link to="/">retrun home</Link></div>
+                <div className={styles.ret}><Link to="/">retrun</Link></div>
                 <div className={styles.con}>
                     <div className={styles.item1}>
                         <input type="text" ref={'ca'} placeholder="ca"/>
@@ -77,7 +77,7 @@ export default class Jitter extends React.Component {
                         <div className={styles.btn}>
                             <button onClick={this.handleClick1}>0-1 Prediction submit</button>
                         </div>
-                        {this.state.data!==null?(<div className={styles.res}>Result：{this.state.data}</div>):''}
+                        {this.state.data!==null?(<div className={styles.res}>{this.state.data}</div>):''}
                     </div>
                     <div className={styles.item2}>
                         {

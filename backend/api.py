@@ -125,7 +125,7 @@ class Predict(Resource):
             result = impfactor1 * value1 + impfactor2 * value2 + impfactor3 * value3 +\
                      impfactor4 * value4 + impfactor5 * value5 + constant
 
-            if result >= 1:
+            if result > 0.5:
                 label = 1
             else:
                 label = 0

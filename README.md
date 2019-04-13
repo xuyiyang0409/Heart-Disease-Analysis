@@ -64,22 +64,6 @@ COMP9321 19T1 Assignment 3
 - POST the important factors to backend from user input.
 - Predict the result based on `PredictType`.
 - If `PredictType` = 1, it means 0-1 classification
-    ```
-    POST /predict?type=<PredictType>
-    
-    POST Payload
-    {
-        "ca": "0",
-        "oldpeak": "2.3"
-        ...
-    }
-    
-    Sample Response
-    {
-        "message": "No Disease"
-        "level": "0"
-    }
-    ```
 - If `PredictType` = 2, it means multiple classification
 
     ```

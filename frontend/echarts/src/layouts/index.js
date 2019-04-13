@@ -35,7 +35,7 @@ function BasicLayout(props) {
                     <option value="/m">thal</option>
                     <option value="/n">target</option>
                 </select>
-                <div className={styles.ret}><Link to="/">retrun</Link></div>
+                <div className={styles.ret}><Link to="/">return</Link></div>
             </div>
 
             {props.children}

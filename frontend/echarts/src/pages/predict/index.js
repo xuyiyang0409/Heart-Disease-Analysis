@@ -66,7 +66,7 @@ export default class Jitter extends React.Component {
 
         return (
             <div className={styles.wrap}>
-                <div className={styles.ret}><Link to="/">retrun</Link></div>
+                <div className={styles.ret}><Link to="/">return</Link></div>
                 <div className={styles.con}>
                     <div className={styles.item1}>
                         <input type="text" ref={'ca'} placeholder="ca"/>

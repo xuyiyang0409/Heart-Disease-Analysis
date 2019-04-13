@@ -52,7 +52,7 @@ class FeatureSelection:
         plt.xlabel('Pearson correlation coefficients')
         plt.title('Feature Selection')
         plt.savefig(os.path.join(self.data_dir, 'FS.png'))
-        plt.show()
+        #plt.show()
 
         self.db_controller.database_controller('DELETE FROM Impfactor;')
         self.db_controller.database_controller("INSERT INTO Impfactor VALUES "

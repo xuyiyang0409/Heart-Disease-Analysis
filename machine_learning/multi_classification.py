@@ -69,7 +69,7 @@ class MultiClassifier:
         plt.ylabel('Accuracy')
         plt.text(percentage_list[-1], accuracy_list[-1], accuracy_list[-1], ha='right', va='bottom', fontsize=12)
         plt.savefig(os.path.join(self.data_dir, 'KNN.png'))
-        plt.show()
+        #plt.show()
 
         # Dump the model
         with open(os.path.join(os.path.dirname(__file__), 'multiModel.pickle'), 'wb') as model:

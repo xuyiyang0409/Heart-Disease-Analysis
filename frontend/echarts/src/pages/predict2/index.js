@@ -9,7 +9,8 @@ import Link from 'umi/link';
 export default class Jitter extends React.Component {
     state={
         a:1,
-        data:null
+        data:null,
+        level:null
     }
 
     componentDidMount(){
@@ -32,7 +33,8 @@ export default class Jitter extends React.Component {
             success: (iData) => {
                 this.setState({
                     a:3,
-                    data:1
+                    data:iData.message,
+                    level:iData.level
                 })
             }
         });
@@ -55,7 +57,8 @@ export default class Jitter extends React.Component {
             success: (iData) => {
                 this.setState({
                     a:3,
-                    data:iData.message
+                    data:iData.message,
+                    level:iData.level
                 })
             }
         });
@@ -74,9 +77,9 @@ export default class Jitter extends React.Component {
                         <input type="text" ref={'cp'} placeholder="cp"/>
                         <input type="text" ref={'exang'} placeholder="exang"/>
                         <div className={styles.btn}>
-                            <button onClick={this.handleClick2}>Muti Prediction Submit</button>
+                            <button onClick={this.handleClick2}>Multi Prediction Submit</button>
                         </div>
-                        {this.state.data!==null?(<div className={styles.res}>{this.state.data}</div>):''}
+                        {this.state.data!==null?(<div className={styles.res}>Result: {this.state.level}, {this.state.data}</div>):''}
                     </div>
                     <div className={styles.item2}>
                         {

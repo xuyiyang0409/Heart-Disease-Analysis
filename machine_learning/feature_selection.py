@@ -65,5 +65,5 @@ class FeatureSelection:
 
 if __name__ == "__main__":
     selecter = FeatureSelection()
-    selecter.correlation(display=True)
-    selecter.l1_regularization(display=True)
+    print(selecter.correlation(display=True))
+    print(selecter.l1_regularization(display=True))

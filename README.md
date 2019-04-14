@@ -1,6 +1,35 @@
 # Heart-Disease-Analysis
 COMP9321 19T1 Assignment 3
 
+## How to run this project
+1. **Install requirements:** `pip3 install requirements.txt`
+2. **Run backend:** `python3 run.py`
+3. **Open another terminal:** `cd frontend`
+4. **Install React framework and modules:** `npm i`
+5. **Run frontend:** `npm start`
+
+## How to reproduce prediction models
+**Please Note:** You must run following codes in **its** directory, not the root directory.
+
+1. **For 0-1 Prediction model:** We use linear regression with K-fold cross validation to predict the whether the user may suffer from heart disease. The final accuracy is 90.9%.
+To reproduce the model, using `cd machine_learning` and `python3 kfold.py`.
+
+
+2. **For Multi Prediction model:** We use KNN algorithm to predict the **exact** target numbers (0-4) for different types of heart diseases. The final accuracy is almost 70%.
+To reproduce the model, using `cd machine_learning` and `python3 multi_classification.py`.
+
+
+3. **For Feature Selection:** We use Pearson correlation coefficients to select the top five most important factors.
+To see the correlation coefficients ranking, using `cd machine_learning` and `python3 feature_selection.py`.
+
+## Prediction Accuracy
+![LR](/data/LR.png)
+![KNN](/data/KNN.png)
+![FS](/data/FS.png)
+
+## Graph Display Sample
+![Sample Graph](/data/Graph.png)
+
 ## API Specification
 
 **Get data to plot charts**

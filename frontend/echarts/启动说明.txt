@@ -1,7 +1,0 @@
-第一步:
-在当前文件包打开cmd命令行终端  执行
-yarn 
-如果没有安装yarn 执行
-cnpm i 
-第二步：
-yarn start 或者 npm start

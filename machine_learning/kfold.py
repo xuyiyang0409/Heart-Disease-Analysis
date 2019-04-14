@@ -166,20 +166,18 @@ def jiaocha(x,y,test,lab):
             inter.append(model.intercept_)
             re = model.predict(test_data)
             a = acc(test_la,re)
-            print('coe',model.coef_)
-            print('a',accur)
+            print('Coefficient: ',model.coef_)
+            print('Accuracy: ',accur)
             accur.append(a)
         for p in range(len(accur)):
             if max(accur) == accur[p]:
                 final_coe.append(coe[p])
                 final_int.append(inter[p])
                 break
-        print(final_int)
-        print(final_coe)
         x_axis.append(o)
         y_axis.append(max(accur))
         result = acc2(test, lab, final_coe[-1], final_int[-1])
-        print('accc',result)
+        print('Accc',result)
     mat(x_axis,y_axis)
     print(final_coe[-1])
     print(final_int[-1])
@@ -188,6 +186,9 @@ def jiaocha(x,y,test,lab):
 
 coe,inter = jiaocha(train_data,label_data,test_data,test_label)
 fin_coe = [coe[-1],coe[-2],coe[1],coe[0],coe[2]]
+
+print('[K-ford] Final coefficients')
+print(fin_coe)
 
 
 db_handler = DBHandler()
